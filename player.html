@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Video Player</title>
+  <style>
+    /* * Make the video fill the entire iframe, 
+     * with no margins or borders.
+     */
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+    }
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="player-container"></div>
+
+  <script>
+    try {
+      // 1. Get the URL parameters
+      const params = new URLSearchParams(window.location.search);
+      const videoId = params.get('vid');
+
+      if (videoId) {
+        // 2. Create a new iframe element
+        const iframe = document.createElement('iframe');
+        
+        // 3. Set the YouTube embed URL
+        iframe.src = `https://www.youtube.com/embed/${videoId}`;
+        
+        // 4. Set necessary attributes
+        iframe.setAttribute('frameborder', '0');
+        iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
+        iframe.setAttribute('allowfullscreen', 'true');
+
+        // 5. Add the iframe to the page
+        document.getElementById('player-container').appendChild(iframe);
+      } else {
+        // Show an error if no ?vid= parameter was found
+        document.getElementById('player-container').innerText = 'Error: No video ID (vid) provided.';
+      }
+    } catch (e) {
+      document.getElementById('player-container').innerText = 'An error occurred: ' + e.message;
+    }
+  </script>
+
+</body>
+</html>
